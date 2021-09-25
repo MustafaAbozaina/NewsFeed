@@ -27,3 +27,6 @@ public class URLSessionHTTPClient: HTTPClient {
         }.resume()
     }
 }
+
+public typealias MainURLSession = URLSessionHTTPClient
+
