@@ -28,5 +28,4 @@ public class URLSessionHTTPClient: HTTPClient {
     }
 }
 
-public typealias MainURLSession = URLSessionHTTPClient
 
