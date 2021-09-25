@@ -6,28 +6,7 @@
 //
 
 import XCTest
-
-
-class URLSessionHTTPClient {
-    private let session: URLSession
-    
-    init(session: URLSession = .shared) {
-        self.session = session
-    }
-    
-    func get<T: Decodable>(from url: URL, completion: @escaping (HTTPClientResult<T>) -> Void) {
-        session.dataTask(with: url) { data, _, error in
-            if let error = error {
-                completion(.failure(error))
-            }  else if let data = data {
-                let responseObject:T? = try? JSONDecoder().decode(T.self, from: data)
-                if let unwrappedResponseObject = responseObject {
-                    completion(.success(unwrappedResponseObject))
-                }
-            }
-        }.resume()
-    }
-}
+import NewsFeed
 
 class URLSessionHTTPClientTests: XCTestCase {
     
@@ -50,7 +29,7 @@ class URLSessionHTTPClientTests: XCTestCase {
                 
         let exp = expectation(description: "Wait for completion")
         
-        createSUT().get(from: url) { (result: HTTPClientResult<NoType>) in
+        createSUT().get(from: url) { (result: HTTPClient.HTTPResult<NoType>) in
             switch result {
             case let .failure(receivedError as NSError):
                 XCTAssertEqual(receivedError.code, error.code)
@@ -67,7 +46,6 @@ class URLSessionHTTPClientTests: XCTestCase {
     
     func test_getFromURL_successOnRequestSuccess() {
         let url = anyUrl
-        let data = Data()
         let jsonData = try! JSONSerialization.data(withJSONObject: ["id" : "1"])
         URLProtocolStub.stub(data: jsonData)
         
@@ -81,13 +59,12 @@ class URLSessionHTTPClientTests: XCTestCase {
         
         createSUT().get(from: url) { (result: HTTPClientResult<NoType>) in
             switch result {
-            case let .success(data):
+            case .success(_):
                 break
             default:
                 XCTFail("Expected success , got \(result) instead")
             }
             
-            exp.fulfill()
         }
         
         wait(for: [exp], timeout: 1)
@@ -95,7 +72,7 @@ class URLSessionHTTPClientTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func createSUT(file: StaticString = #file, line: UInt = #line) -> URLSessionHTTPClient {
+    private func createSUT(file: StaticString = #file, line: UInt = #line) -> HTTPClient {
         let sut = URLSessionHTTPClient()
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
@@ -160,10 +137,6 @@ class URLSessionHTTPClientTests: XCTestCase {
     
 }
 
-enum HTTPClientResult<T: Decodable> {
-    case failure(Error)
-    case success(T)
-}
 
 private class NoType: Decodable {
     var id: String?
