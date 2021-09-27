@@ -12,6 +12,7 @@ public class URLSessionHTTPClient: HTTPClient {
     
     public init(session: URLSession = .shared) {
         self.session = session
+        
     }
     
     public func get<T: Decodable>(from url: URL, completion: @escaping (HTTPClient.HTTPResult<T>) -> Void) {
