@@ -14,8 +14,6 @@
 		95B53F8F26FF68BD006007BC /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B53F8E26FF68BD006007BC /* URLSessionHTTPClient.swift */; };
 		95B53F9426FF6E18006007BC /* URLProtocolStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B53F9326FF6E18006007BC /* URLProtocolStub.swift */; };
 		95B53F9626FF6F69006007BC /* NewsFeedLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B53F9526FF6F69006007BC /* NewsFeedLoaderTests.swift */; };
-		95B53F9B27024C22006007BC /* NewsRootResponseMocked.json in Resources */ = {isa = PBXBuildFile; fileRef = 95B53F9A27024C21006007BC /* NewsRootResponseMocked.json */; };
-		95B53F9D27025491006007BC /* NewsMocked.json in Resources */ = {isa = PBXBuildFile; fileRef = 95B53F9C27025490006007BC /* NewsMocked.json */; };
 		95B53F9F2702581C006007BC /* NewsRootMocked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B53F9E2702581C006007BC /* NewsRootMocked.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,8 +38,6 @@
 		95B53F8E26FF68BD006007BC /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		95B53F9326FF6E18006007BC /* URLProtocolStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolStub.swift; sourceTree = "<group>"; };
 		95B53F9526FF6F69006007BC /* NewsFeedLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewsFeedLoaderTests.swift; path = NewsFeedTests/NewsFeedLoaderTests.swift; sourceTree = SOURCE_ROOT; };
-		95B53F9A27024C21006007BC /* NewsRootResponseMocked.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = NewsRootResponseMocked.json; path = /Applications/Xcode.app/Contents/Developer/../../../../Volumes/Mine/MyWork/Developer/Demos/Tasks/NewsSolution/NewsFeed/NewsFeedTests/NewsRootResponseMocked.json; sourceTree = "<absolute>"; };
-		95B53F9C27025490006007BC /* NewsMocked.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NewsMocked.json; sourceTree = "<group>"; };
 		95B53F9E2702581C006007BC /* NewsRootMocked.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRootMocked.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,12 +81,10 @@
 		95B53F6F26FE6217006007BC /* NewsFeed */ = {
 			isa = PBXGroup;
 			children = (
-				95B53F9A27024C21006007BC /* NewsRootResponseMocked.json */,
 				95B53F9026FF6D0A006007BC /* Features */,
 				95B53F8926FF5393006007BC /* Core */,
 				95B53F7026FE6217006007BC /* NewsFeed.h */,
 				95B53F7126FE6217006007BC /* Info.plist */,
-				95B53F9C27025490006007BC /* NewsMocked.json */,
 			);
 			path = NewsFeed;
 			sourceTree = "<group>";
@@ -255,7 +249,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95B53F9D27025491006007BC /* NewsMocked.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,7 +256,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95B53F9B27024C22006007BC /* NewsRootResponseMocked.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
