@@ -8,10 +8,20 @@
 import XCTest
 import NewsFeed
 
+protocol NewsFeedLoader {
+    func load(completion: @escaping (NewsFeedRoot?,Error?) -> Void)
+}
 
-class RemoteNewsFeedLoader {
+class RemoteNewsFeedLoader: NewsFeedLoader {
+    var url: URL
+    var client: HTTPClient
+    
+    init(url: URL, client: HTTPClient) {
+        self.url = url
+        self.client = client
+    }
 
-    func load(url: URL, client: HTTPClient, completion: @escaping (NewsFeedRoot?,Error?) -> Void) {
+    func load(completion: @escaping (NewsFeedRoot?,Error?) -> Void) {
         client.get(from: url) { (root: HTTPClientResult<NewsFeedRoot>) in
             switch root {
             case .success(let a):
@@ -36,7 +46,7 @@ class RemoteNewsFeedLoaderTests: XCTestCase {
     func test_init_doesNotRequestDataFromURL() {
         
         let _ = createHTTPClient()
-        _ = RemoteNewsFeedLoader()
+        _ = makeSUT()
         
         URLProtocolStub.observeRequests { request in
             XCTFail()
@@ -46,9 +56,9 @@ class RemoteNewsFeedLoaderTests: XCTestCase {
     func test_load_requestFiredCorreclty() {
         let exp = expectation(description: "should observe request")
         let client = createHTTPClient()
-        let sut = RemoteNewsFeedLoader()
+        let sut = makeSUT()
         let url = anyUrl
-        sut.load(url: url , client: client) { newsRoot, error in
+        sut.load() { newsRoot, error in
             
         }
         URLProtocolStub.observeRequests { request in
@@ -66,8 +76,8 @@ class RemoteNewsFeedLoaderTests: XCTestCase {
         let exp = self.expectation(description: "should retrive NewsFeedRoot which contais status which equall ok ")
         URLProtocolStub.stub(data: jsonData, response: nil, error: nil)
         
-        let sut = RemoteNewsFeedLoader()
-        sut.load(url: URL(string: "www.anyURl.com")!, client: client) { newsRoot, error in
+        let sut = makeSUT()
+        sut.load() { newsRoot, error in
             if newsRoot?.status == "ok" {
                 exp.fulfill()
             }
@@ -77,14 +87,14 @@ class RemoteNewsFeedLoaderTests: XCTestCase {
     }
     func test_load_successfullyRespondeAllJsonDataNewsFeed() {
         
-        let client = createHTTPClient()
+        let client = makeSUT()
         let jsonData = try! JSONSerialization.data(withJSONObject: NewsFeedMocking.newsRootMockedJson)
         
         let exp = self.expectation(description: "should retrive NewsFeedRoot which contais status which equall ok")
         URLProtocolStub.stub(data: jsonData, response: URLResponse(), error: nil)
         
-        let sut = RemoteNewsFeedLoader()
-        sut.load(url: URL(string: "www.anyURl.com")!, client: client) { newsRoot, error in
+        let sut = makeSUT()
+        sut.load() { newsRoot, error in
             if let _ =  newsRoot?.articles {
                 exp.fulfill()
             }
@@ -98,8 +108,8 @@ class RemoteNewsFeedLoaderTests: XCTestCase {
         let exp = self.expectation(description: "should fail on error")
         URLProtocolStub.stub(data: nil, response: nil, error: NSError(domain: "Error", code: 1))
         
-        let sut = RemoteNewsFeedLoader()
-        sut.load(url: anyUrl, client: client) { news, error in
+        let sut = makeSUT()
+        sut.load() { news, error in
             if let _ = error {
                 exp.fulfill()
             }
@@ -117,6 +127,13 @@ class RemoteNewsFeedLoaderTests: XCTestCase {
         let httpClient = URLSessionHTTPClient(session: session)
         trackForMemoryLeaks(httpClient, file: file, line: line)
         return httpClient
+    }
+    
+    private func makeSUT() -> NewsFeedLoader {
+        let url = anyUrl
+        let client = createHTTPClient()
+        let remoteNewsFeedLoader = RemoteNewsFeedLoader(url: url, client: client)
+        return remoteNewsFeedLoader
     }
     
     private func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
