@@ -8,34 +8,6 @@
 import XCTest
 import NewsFeed
 
-protocol NewsFeedLoader {
-    func load(completion: @escaping (NewsFeedRoot?,Error?) -> Void)
-}
-
-class RemoteNewsFeedLoader: NewsFeedLoader {
-    var url: URL
-    var client: HTTPClient
-    
-    init(url: URL, client: HTTPClient) {
-        self.url = url
-        self.client = client
-    }
-
-    func load(completion: @escaping (NewsFeedRoot?,Error?) -> Void) {
-        client.get(from: url) { (root: HTTPClientResult<NewsFeedRoot>) in
-            switch root {
-            case .success(let a):
-                print(a)
-                completion(a,nil)
-                break
-            case .failure(let error):
-                completion(nil,error)
-                break
-            }
-        }
-    }
-}
-
 class RemoteNewsFeedLoaderTests: XCTestCase {
     let anyUrl = URL(string: "www.temp.com")!
     override class func tearDown() {
