@@ -54,7 +54,6 @@ class URLSessionHTTPClientTests: XCTestCase {
                 XCTFail("Expected success , got \(result) instead")
             }
         }
-        
         wait(for: [exp], timeout: 1)
     }
     
@@ -76,6 +75,4 @@ class URLSessionHTTPClientTests: XCTestCase {
     }
 }
 
-private class NoType: Decodable {
-    var id: String?
-}
+private class NoType: Decodable {}
