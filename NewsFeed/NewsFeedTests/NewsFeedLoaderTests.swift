@@ -8,27 +8,6 @@
 import XCTest
 import NewsFeed
 
-class NewsFeedRoot: Decodable {
-    let status: String?
-    let totalResults: Int?
-    let articles: [Article]?
-}
-
-class Article: Decodable {
-    let source: ArticleSource?
-    let author: String?
-    let title: String?
-    let description: String?
-    let url: String?
-    let urlToImage: String?
-    let publishedAt: String?
-    let content: String?
-}
-
-class ArticleSource: Decodable {
-    let id: Int?
-    let name: String?
-}
 
 class RemoteNewsFeedLoader {
 
